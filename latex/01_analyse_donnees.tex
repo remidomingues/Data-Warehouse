@@ -1,5 +1,16 @@
 \chapter{Analyse des données}
 
+\section{Visualisation des données}
+
+Requête utile pour voir la répartition des causes de décés selon le sexe :
+
+\begin{lstlisting}[frame=single]
+    SELECT sexage.SEX, causes.LABEL, COUNT(*) AS Number
+    FROM london INNER JOIN
+            sexage ON london.SEXAGE = sexage.SEXAGE INNER JOIN
+            causes on london.CAUSE = causes.CAUSE
+    GROUP BY sexage.sex, causes.label
+\end{lstlisting}
 
 \section{Modification de données}
 
