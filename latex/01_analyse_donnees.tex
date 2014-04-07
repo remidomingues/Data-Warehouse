@@ -1,0 +1,27 @@
+\chapter{Analyse des données}
+
+\section{Visualisation des données}
+
+Requête utile pour voir la répartition des causes de décés selon le sexe :
+
+\begin{lstlisting}[frame=single]
+    SELECT sexage.SEX, causes.LABEL, COUNT(*) AS Number
+    FROM london INNER JOIN
+            sexage ON london.SEXAGE = sexage.SEXAGE INNER JOIN
+            causes on london.CAUSE = causes.CAUSE
+    GROUP BY sexage.sex, causes.label
+\end{lstlisting}
+
+\section{Modification de données}
+
+    Vu le format des données de la table SexAge, dissocier l'effet du sexe et de l'âge s'avérait hardu.
+
+    Nous avons donc modifié la table en créant deux nouvelles colonnes: Sex, nvarchar qui contiendra le sexe (M/F), et Age,
+    nvarchar qui contiendra la tranche d'âge (<1, 10-14, ...).
+
+    Nous avons alors lancé la requête suivante afin de séparer les données de "sexage" sur ces deux colonnes :
+
+    \begin{lstlisting}[frame=single]
+        UPDATE sexage
+        SET Sex=LEFT(label, 1), Age=RIGHT(label, LEN(label) - 1);
+    \end{lstlisting}
