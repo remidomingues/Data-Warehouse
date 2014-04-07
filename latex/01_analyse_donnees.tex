@@ -1,0 +1,16 @@
+\chapter{Analyse des données}
+
+
+\section{Modification de données}
+
+    Vu le format des données de la table SexAge, dissocier l'effet du sexe et de l'âge s'avérait hardu.
+
+    Nous avons donc modifié la table en créant deux nouvelles colonnes: Sex, nvarchar qui contiendra le sexe (M/F), et Age,
+    nvarchar qui contiendra la tranche d'âge (<1, 10-14, ...).
+
+    Nous avons alors lancé la requête suivante afin de séparer les données de "sexage" sur ces deux colonnes :
+
+    \begin{lstlisting}[frame=single]
+        UPDATE sexage
+        SET Sex=LEFT(label, 1), Age=RIGHT(label, LEN(label) - 1);
+    \end{lstlisting}
