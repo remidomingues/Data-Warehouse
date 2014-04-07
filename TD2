@@ -1,0 +1,85 @@
+R0:
+select
+    {[Measures].[Nb Café]} on columns
+from distributeur
+
+R1:
+select
+    {[Measures].[Nb Café], [Measures].[Nb Chocolat]} on columns,
+    {[TIME].[Année ].members} on rows
+from distributeur
+
+R2:
+select
+    {[dzvefLOC].[Libelle Batiment].members} on columns,
+    {[TIME].[Année ].members} on rows
+from distributeur
+where [Measures].[Nb Café]
+
+R3:
+select
+    {[dzvefLOC].[Tous les dzvefLOC].[Blaise Pascal].Children} on columns,
+    {[TIME].[Année ].members} on rows
+from distributeur
+where ([Measures].[Nb Café])
+
+R4:
+select
+    {[dzvefLOC].[Tous les dzvefLOC].[Blaise Pascal].[1]} on columns,
+    {[TIME].[Année ].members} on rows
+from distributeur
+where ([Measures].[Nb Café])
+
+R5:
+select
+    {[dzvefLOC].[Libelle Batiment].members,[dzvefLOC].[Code Machine].members} on columns,
+    {[TIME].[Année ].members} on rows
+from distributeur
+where ([Measures].[Nb Café])
+
+R6:
+select
+    {[dzvefLOC].[Libelle Batiment].members} on columns,
+    {[TIME].[2010].children} on rows
+from distributeur
+where ([Measures].[Nb Café])
+
+R7:
+with member [Measures].[Diff Café] as '([Measures].[Nb Café] - ([Measures].[Nb Café],[TIME].CurrentMember.PrevMember))'
+select
+    {[Measures].[Diff Café]} on columns,
+    {[TIME].[2010].children} on rows
+from distributeur
+
+R8:
+with member [Measures].[Diff Café] as '([Measures].[Nb Café] - ([Measures].[Nb Café],[TIME].CurrentMember.PrevMember))'
+select
+    {[Measures].[Nb Chocolat],[Measures].[Nb Café]} on columns,
+    {[dzvefLOC].members} on rows
+from distributeur
+where ([TIME].[Tous les TIME].[2010])
+
+R9:
+select
+    {[Measures].[Nb Café]} on columns,
+    {TopCount([jour].[Jour Semaine].members,2,[Measures].[Nb Café])} on rows
+from distributeur
+
+On peut aussi tous les avoir triés avec order:
+select
+    {[Measures].[Nb Café]} on columns,
+    {Order([jour].[Jour Semaine].members,[Measures].[Nb Café], BDESC)} on rows
+from distributeur
+
+
+Indicateurs:
+1. [Measures].[Nb Café]/([Measures].[Nb Café],[dzvefLOC].CurrentMember.Parent)
+select
+    {[Measures].[ratio café bat]} on columns,
+    {[dzvefLOC].members} on rows
+from distributeur
+
+2.
+3.
+4.
+5.
