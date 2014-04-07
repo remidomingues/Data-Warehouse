@@ -1,5 +1,5 @@
 
-TEX_NAME=parser
+TEX_NAME=hyper_cube
 
 TEX_BUILD_FLAGS= -interaction=nonstopmode -file-line-error
 
