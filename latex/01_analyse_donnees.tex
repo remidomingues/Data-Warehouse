@@ -12,7 +12,7 @@ Requête utile pour voir la répartition des causes de décés selon le sexe :
     GROUP BY sexage.sex, causes.label
 \end{lstlisting}
 
-\section{Modification de données}
+\section{Séparation des données de sexe et d'age}
 
     Vu le format des données de la table SexAge, dissocier l'effet du sexe et de l'âge s'avérait hardu.
 
@@ -24,4 +24,19 @@ Requête utile pour voir la répartition des causes de décés selon le sexe :
     \begin{lstlisting}[frame=single]
         UPDATE sexage
         SET Sex=LEFT(label, 1), Age=RIGHT(label, LEN(label) - 1);
+    \end{lstlisting}
+
+\section{Incohérences dans les nombre de morts}
+
+    En analysant la table des morts de chaque région, nous avons remarqué que la somme des morts par cause de niveau 2 était
+    inférieure au nombre de morts par cause de niveau 1 (càd de toutes les causes de mort). Ceci est probablement dû à une
+    erreur lors du remplissage des formulaires (cause de niveau 2 non-remplie).
+
+    La solution qu'on propose est de rajouter une nouvelle cause de mort de niveau 2 représentant une cause indéfinie, afin
+    de ne pas sous-estimer le nombre de morts en ignorant ceux dont la cause de niveau 2 n'est pas renseignée.
+
+    \begin{lstlisting}[frame=single]
+        SELECT QUELQUE CHOSE
+        FROM QUELQUE PART
+        WHERE JE SAIS PAS
     \end{lstlisting}
