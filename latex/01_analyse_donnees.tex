@@ -49,6 +49,30 @@ HAVING (causes.NIVEAU = 1) OR (causes.NIVEAU = 2)
 METTRE LES REQUETES QUI VONT BIEN ICI
     \end{lstlisting}
 
+\section{Union des données dans une nouvelle table}
+
+    TODO : Mettre du blabla aussi.
+
+    \begin{lstlisting}[frame=single, language=SQL]
+INSERT INTO deaths
+SELECT *
+FROM
+(
+    SELECT * FROM london UNION
+    SELECT * FROM mersey UNION
+    SELECT * FROM yorkhumb UNION
+    SELECT * FROM ntheast UNION
+    SELECT * FROM nthwest UNION
+    SELECT * FROM stheast UNION
+    SELECT * FROM sthwest UNION
+    SELECT * FROM eastern UNION
+    SELECT * FROM eastminds UNION
+    SELECT * FROM wales UNION
+    SELECT * FROM westmids UNION
+)
+    \end{lstlisting}
+
+
 \section{Visualisation des données}
 
 Requête utile pour voir la répartition des causes de décés selon le sexe :
@@ -60,4 +84,3 @@ FROM london INNER JOIN
         causes on london.CAUSE = causes.CAUSE
 GROUP BY sexage.sex, causes.label
 \end{lstlisting}
-
