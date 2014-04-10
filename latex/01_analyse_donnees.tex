@@ -4,7 +4,7 @@
 
 Requête utile pour voir la répartition des causes de décés selon le sexe :
 
-\begin{lstlisting}[frame=single]
+\begin{lstlisting}[frame=single, language=SQL]
 SELECT sexage.SEX, causes.LABEL, COUNT(*) AS Number
 FROM london INNER JOIN
         sexage ON london.SEXAGE = sexage.SEXAGE INNER JOIN
@@ -19,9 +19,9 @@ GROUP BY sexage.sex, causes.label
     Nous avons donc modifié la table en créant deux nouvelles colonnes: Sex, nvarchar qui contiendra le sexe (M/F), et Age,
     nvarchar qui contiendra la tranche d'âge (<1, 10-14, ...).
 
-    Nous avons alors lancé la requête suivante afin de séparer les données de "sexage" sur ces deux colonnes :
+    Nous avons alors lancé la requête suivante afin de séparer les données de ``sexage'' sur ces deux colonnes :
 
-    \begin{lstlisting}[frame=single]
+    \begin{lstlisting}[frame=single, language=SQL]
 UPDATE sexage
 SET Sex=LEFT(label, 1), Age=RIGHT(label, LEN(label) - 1);
     \end{lstlisting}
@@ -31,9 +31,9 @@ SET Sex=LEFT(label, 1), Age=RIGHT(label, LEN(label) - 1);
     En analysant la table des morts de chaque région, nous avons remarqué que la somme des morts par cause de niveau 2 était
     inférieure au nombre de morts par cause de niveau 1 (càd de toutes les causes de mort).
 
-    Cette incohérence peut être montrée sur la table "westmids" (par exemple) avec la requête suivante :
+    Cette incohérence peut être montrée sur la table ``westmids'' (par exemple) avec la requête suivante :
 
-    \begin{lstlisting}[frame=single]
+    \begin{lstlisting}[frame=single, language=SQL]
 SELECT causes.NIVEAU, SUM(westmids.DEATHS) AS TotalDeaths
 FROM westmids INNER JOIN causes ON westmids;CAUSE = causes.CAUSE
 GROUP BY causes.NIVEAU
@@ -45,6 +45,19 @@ HAVING (causes.NIVEAU = 1) OR (causes.NIVEAU = 2)
     La solution qu'on propose est de rajouter une nouvelle cause de mort de niveau 2 représentant une cause indéfinie, afin
     de ne pas sous-estimer le nombre de morts en ignorant ceux dont la cause de niveau 2 n'est pas renseignée.
 
-    \begin{lstlisting}[frame=single]
+    \begin{lstlisting}[frame=single, language=SQL]
 METTRE LES REQUETES QUI VONT BIEN ICI
     \end{lstlisting}
+
+\section{Visualisation des données}
+
+Requête utile pour voir la répartition des causes de décés selon le sexe :
+
+\begin{lstlisting}[frame=single, language=SQL]
+SELECT sexage.SEX, causes.LABEL, COUNT(*) AS Number
+FROM london INNER JOIN
+        sexage ON london.SEXAGE = sexage.SEXAGE INNER JOIN
+        causes on london.CAUSE = causes.CAUSE
+GROUP BY sexage.sex, causes.label
+\end{lstlisting}
+
