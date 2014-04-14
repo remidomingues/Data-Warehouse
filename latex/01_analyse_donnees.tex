@@ -75,12 +75,18 @@ FROM
 
 \section{Visualisation des données}
 
-Requête utile pour voir la répartition des causes de décés selon le sexe :
+    Nous avons exploré les données mises à notre disposition, en essayant de trouver des motifs, incohérences et autres motifs particuliers
+    dans ces dernières.
 
-\begin{lstlisting}[frame=single, language=SQL]
+    Pour cela, nous avons effectué plusieurs requêtes SQL, comme cette requête qui donne la répartition des décès par sexe pour chaque
+    cause.
+
+    \begin{lstlisting}[frame=single, language=SQL]
 SELECT sexage.SEX, causes.LABEL, COUNT(*) AS Number
 FROM london INNER JOIN
         sexage ON london.SEXAGE = sexage.SEXAGE INNER JOIN
         causes on london.CAUSE = causes.CAUSE
 GROUP BY sexage.sex, causes.label
-\end{lstlisting}
+    \end{lstlisting}
+
+    On a donc découvert que, surprise !, il n'y a pas de décès ayant pour cause un avortement chez le sexe masculin.
