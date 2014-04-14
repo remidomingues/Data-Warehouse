@@ -26,6 +26,24 @@ UPDATE sexage
 SET Sex=LEFT(label, 1), Age=RIGHT(label, LEN(label) - 1);
     \end{lstlisting}
 
+\section{Visualisation des données}
+
+    Nous avons exploré les données mises à notre disposition, en essayant de trouver des motifs, incohérences et autres motifs particuliers
+    dans ces dernières.
+
+    Pour cela, nous avons effectué plusieurs requêtes SQL, comme cette requête qui donne la répartition des décès par sexe pour chaque
+    cause.
+
+    \begin{lstlisting}[frame=single, language=SQL]
+SELECT sexage.SEX, causes.LABEL, COUNT(*) AS Number
+FROM london INNER JOIN
+    sexage ON london.SEXAGE = sexage.SEXAGE INNER JOIN
+    causes on london.CAUSE = causes.CAUSE
+GROUP BY sexage.sex, causes.label
+    \end{lstlisting}
+
+    On a donc découvert que, surprise !, il n'y a pas de décès ayant pour cause un avortement, chez le sexe masculin.
+
 \section{Incohérences dans les nombre de morts}
 
     En analysant la table des morts de chaque région, nous avons remarqué que la somme des morts par cause de niveau 2 était
@@ -51,7 +69,6 @@ METTRE LES REQUETES QUI VONT BIEN ICI
 
 \section{Union des données dans une nouvelle table}
 
-    TODO : Mettre du blabla aussi.
 
     \begin{lstlisting}[frame=single, language=SQL]
 INSERT INTO deaths
@@ -71,22 +88,3 @@ FROM
     SELECT * FROM westmids UNION
 )
     \end{lstlisting}
-
-
-\section{Visualisation des données}
-
-    Nous avons exploré les données mises à notre disposition, en essayant de trouver des motifs, incohérences et autres motifs particuliers
-    dans ces dernières.
-
-    Pour cela, nous avons effectué plusieurs requêtes SQL, comme cette requête qui donne la répartition des décès par sexe pour chaque
-    cause.
-
-    \begin{lstlisting}[frame=single, language=SQL]
-SELECT sexage.SEX, causes.LABEL, COUNT(*) AS Number
-FROM london INNER JOIN
-        sexage ON london.SEXAGE = sexage.SEXAGE INNER JOIN
-        causes on london.CAUSE = causes.CAUSE
-GROUP BY sexage.sex, causes.label
-    \end{lstlisting}
-
-    On a donc découvert que, surprise !, il n'y a pas de décès ayant pour cause un avortement chez le sexe masculin.
