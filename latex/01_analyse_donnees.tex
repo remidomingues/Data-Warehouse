@@ -65,19 +65,17 @@ GROUP BY sexage.sex, causes.label
 
     \begin{lstlisting}[frame=single, language=SQL]
 SELECT causes.NIVEAU, SUM(westmids.DEATHS) AS TotalDeaths
-FROM westmids INNER JOIN causes ON westmids;CAUSE = causes.CAUSE
+FROM westmids INNER JOIN causes ON westmids.CAUSE = causes.CAUSE
 GROUP BY causes.NIVEAU
 HAVING (causes.NIVEAU = 1) OR (causes.NIVEAU = 2)
     \end{lstlisting}
 
     Ceci est probablement dû à une erreur lors du remplissage des formulaires (cause de niveau 2 non-remplie).
 
-    La solution qu'on propose est de rajouter une nouvelle cause de mort de niveau 2 représentant une cause indéfinie, afin
+    La solution qu'on a choisie est de rajouter une nouvelle cause de mort de niveau 2 représentant une cause indéfinie, afin
     de ne pas sous-estimer le nombre de morts en ignorant ceux dont la cause de niveau 2 n'est pas renseignée.
 
-    \begin{lstlisting}[frame=single, language=SQL]
-METTRE LES REQUETES QUI VONT BIEN ICI
-    \end{lstlisting}
+    La requête utilisée pour réaliser cette opération est détaillée plus bas, dans la partie exploitation de données.
 
 \section{Union des données dans une nouvelle table}
 
@@ -120,3 +118,43 @@ FROM deaths INNER JOIN causes
         ON deaths.cause = causes.cause
     \end{lstlisting}
 
+
+    Afin de corriger cette incohérence, nous rajoutons comme prévu une cause de niveau 2 représentant une cause non renseignée
+    et lui donnons l'id \textit{120}.
+
+    Nous exécutons alors cette requête qui va calculer le gap entre les morts de niveau 1 et de niveau 2, puis rajouter une ligne
+    s'il y a des morts non renseignées (avec la cause que l'on vient de créer).
+
+    \begin{lstlisting}[frame=single, language=SQL]
+INSERT INTO deaths
+SELECT h.year, h.county, h.cdistrict, 120, h.sexage, h.delta
+FROM (
+    SELECT t.year, t.county, t.cdistrict, t.sexage,
+    (
+        (
+            SELECT sum(tt1.deaths)
+            FROM deaths AS tt1, causes AS cc1
+            WHERE tt1.cause = cc1.cause
+            AND cc1.niveau = 1
+            AND tt1.year = t.year
+            AND tt1.county = t.county
+            AND tt1.cdistrict = t.cdistrict
+            AND tt1.sexage = t.sexage
+        )
+        -
+        (
+            SELECT sum(tt2.deaths)
+            FROM deaths AS tt2, causes AS cc2
+            WHERE tt2.cause = cc2.cause
+            AND cc2.niveau = 2
+            AND tt2.year = t.year
+            AND tt2.county = t.county
+            AND tt2.cdistrict = t.cdistrict
+            AND tt2.sexage = t.sexage
+        )
+    ) AS delta
+    FROM deaths AS t
+    GROUP BY t.year, t.county, t.cdistrict, t.sexage
+) AS h
+WHERE h.delta > 0
+    \end{lstlisting}
