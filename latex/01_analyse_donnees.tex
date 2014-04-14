@@ -2,15 +2,15 @@
 
 \section{Visualisation des données}
 
-Requête utile pour voir la répartition des causes de décés selon le sexe :
+    Requête utile pour voir la répartition des causes de décés selon le sexe :
 
-\begin{lstlisting}[frame=single, language=SQL]
+    \begin{lstlisting}[frame=single, language=SQL]
 SELECT sexage.SEX, causes.LABEL, COUNT(*) AS Number
 FROM london INNER JOIN
         sexage ON london.SEXAGE = sexage.SEXAGE INNER JOIN
         causes on london.CAUSE = causes.CAUSE
 GROUP BY sexage.sex, causes.label
-\end{lstlisting}
+    \end{lstlisting}
 
 \section{Séparation des données de sexe et d'age}
 
@@ -24,6 +24,18 @@ GROUP BY sexage.sex, causes.label
     \begin{lstlisting}[frame=single, language=SQL]
 UPDATE sexage
 SET Sex=LEFT(label, 1), Age=RIGHT(label, LEN(label) - 1);
+    \end{lstlisting}
+
+\section{Table temporelle}
+
+    Requête pour initialiser la table \textit{year} après sa création (une colonne de type entier et clé primaire)
+
+    \begin{lstlisting}[frame=single, language=SQL]
+INSERT INTO Annee
+SELECT     [YEAR]
+FROM [7992pops]
+GROUP BY [YEAR]
+ORDER BY [YEAR]
     \end{lstlisting}
 
 \section{Visualisation des données}
@@ -92,10 +104,19 @@ FROM
 
     Afin d'exploiter ces données, nous avons créée deux nouvelles tables centralisant toutes les morts des différentes régions.
 
-
     \begin{lstlisting}[frame=single, language=SQL]
 SELECT deaths.*
 FROM deaths INNER JOIN causes
         ON deaths.cause = causes.cause
 WHERE causes.niveau <= 2
     \end{lstlisting}
+
+    Et comme vu précédemment, il existe un gap entre le nombre total de morts si on regarde les causes de niveau 2 ou le nombre
+    total de morts (cause de niveau 1).
+
+    \begin{lstlisting}[frame=single, language=SQL]
+SELECT causes.niveau, SUM(deaths.deaths)
+FROM deaths INNER JOIN causes
+        ON deaths.cause = causes.cause
+    \end{lstlisting}
+
