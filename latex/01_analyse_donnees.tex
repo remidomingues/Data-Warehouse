@@ -69,6 +69,7 @@ METTRE LES REQUETES QUI VONT BIEN ICI
 
 \section{Union des données dans une nouvelle table}
 
+    Afin d'exploiter ces données, nous avons créée une nouvelle table \textit{deaths} centralisant toutes les morts des différentes régions.
 
     \begin{lstlisting}[frame=single, language=SQL]
 INSERT INTO deaths
@@ -83,8 +84,11 @@ FROM
     SELECT * FROM stheast UNION
     SELECT * FROM sthwest UNION
     SELECT * FROM eastern UNION
-    SELECT * FROM eastminds UNION
+    SELECT * FROM eastmids UNION
     SELECT * FROM wales UNION
-    SELECT * FROM westmids UNION
+    SELECT * FROM westmids
 )
     \end{lstlisting}
+
+    Cette table est alors modifiée selon l'utilisation désirée (étude des causes de niveau 2, étude de la néoplasie, ...) afin
+    de minimiser le volume des données manipulées.
