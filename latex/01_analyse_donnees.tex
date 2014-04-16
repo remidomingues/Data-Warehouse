@@ -61,7 +61,12 @@ GROUP BY sexage.sex, causes.label
     En analysant la table des morts de chaque région, nous avons remarqué que la somme des morts par cause de niveau 2 était
     inférieure au nombre de morts par cause de niveau 1 (càd de toutes les causes de mort).
 
-    Cette incohérence peut être montrée sur la table ``westmids'' (par exemple) avec la requête suivante :
+    Si ceci est dû en partie à des certificats de décès qui ne sont pas correctement remplis, il existe aussi une autre cause,
+    renseignée dans le document fourni (\textbf{``locali mortaility datapack.pdf''})~: Un nouveau certificat pour les morts néonatales
+    a été introduit en 1986, et ces morts ne sont plus rentrées sous la cause ``Certain conditions originating in the perinatal
+    period'' depuis cette date là.
+
+    On peut voir cette différence dans le nombre de morts de la table ``westmids'' (par exemple) avec la requête suivante :
 
     \begin{lstlisting}[frame=single, language=SQL]
 SELECT causes.NIVEAU, SUM(westmids.DEATHS) AS TotalDeaths
