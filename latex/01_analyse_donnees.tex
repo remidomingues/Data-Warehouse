@@ -1,17 +1,5 @@
 \chapter{Analyse des données}
 
-\section{Visualisation des données}
-
-    Requête utile pour voir la répartition des causes de décés selon le sexe :
-
-    \begin{lstlisting}[frame=single, language=SQL]
-SELECT sexage.SEX, causes.LABEL, COUNT(*) AS Number
-FROM london INNER JOIN
-        sexage ON london.SEXAGE = sexage.SEXAGE INNER JOIN
-        causes on london.CAUSE = causes.CAUSE
-GROUP BY sexage.sex, causes.label
-    \end{lstlisting}
-
 \section{Séparation des données de sexe et d'age}
 
     Vu le format des données de la table SexAge, dissocier l'effet du sexe et de l'âge s'avérait hardu.
@@ -62,7 +50,7 @@ GROUP BY sexage.sex, causes.label
     inférieure au nombre de morts par cause de niveau 1 (càd de toutes les causes de mort).
 
     Si ceci est dû en partie à des certificats de décès qui ne sont pas correctement remplis, il existe aussi une autre cause,
-    renseignée dans le document fourni (\textbf{``locali mortaility datapack.pdf''})~: Un nouveau certificat pour les morts néonatales
+    renseignée dans le document fourni (\textbf{``local mortaility datapack.pdf''})~: Un nouveau certificat pour les morts néonatales
     a été introduit en 1986, et ces morts ne sont plus rentrées sous la cause ``Certain conditions originating in the perinatal
     period'' depuis cette date là.
 
@@ -74,8 +62,6 @@ FROM westmids INNER JOIN causes ON westmids.CAUSE = causes.CAUSE
 GROUP BY causes.NIVEAU
 HAVING (causes.NIVEAU = 1) OR (causes.NIVEAU = 2)
     \end{lstlisting}
-
-    Ceci est probablement dû à une erreur lors du remplissage des formulaires (cause de niveau 2 non-remplie).
 
     La solution qu'on a choisie est de rajouter une nouvelle cause de mort de niveau 2 représentant une cause indéfinie, afin
     de ne pas sous-estimer le nombre de morts en ignorant ceux dont la cause de niveau 2 n'est pas renseignée.
@@ -123,7 +109,6 @@ FROM deaths INNER JOIN causes
         ON deaths.cause = causes.cause
     \end{lstlisting}
 
-
     Afin de corriger cette incohérence, nous rajoutons comme prévu une cause de niveau 2 représentant une cause non renseignée
     et lui donnons l'id \textit{120}.
 
@@ -163,3 +148,12 @@ FROM (
 ) AS h
 WHERE h.delta > 0
     \end{lstlisting}
+
+
+\section{}
+
+    Blah bleh
+
+\section{Validation des données des cubes}
+
+    Bleh blah
