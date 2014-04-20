@@ -1,26 +1,57 @@
 \chapter{Analyse des données}
 
+TODO : décrire vite fait chaque table ?
+TODO : raconter ce qu'on a découvert dans les données et comment (sans requêtes SQL) -> les données ne sont pas bonnes, nous les avons vérifiées, grâce à des requêtes (vérifications internes) et à d'autres sources externes (wikipédia...)
+ - les causes de morts qui s'imbriquent
+ - la somme de niveau 1 différentes de celles de niveau 2
+ - les données des années 79 - 80 sont des estimations (chiffres ronds) car absence de données pour ces années là
+ - pour les néoplasies, les causes renseignées pour la mort sont les causes les plus précises (plus d'imbrications des causes et donc de doublons des morts)
+
+
 \pagebreak
 
 
 \chapter{Modélisation de l'entrepôt et des cubes}
-\section{Cube Population}
+
+\section{Hypercube Population}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\linewidth]{images/pop/cube.png}
-    \caption{Modèle conceptuel du cube Population}
+    \caption{Modèle conceptuel de l'hypercube Population}
     \label{conception_cube_pop}
 \end{figure}
 
-Le modèle conceptuel précédent est associé à la construction logique ci-dessous :
+\section{Hypercube Nombre de morts}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{images/cubeNbMorts.png}
+    \caption{Modèle conceptuel de l'hypercube Nombre de morts}
+    \label{conception_cube_nombre_morts}
+\end{figure}
 
-TODO : Ajouter le modèle logique (tables de données) du cube population
+\section{Hypercube Néoplasies}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{images/cubeNeo.png}
+    \caption{Modèle conceptuel de l'hypercube Néoplasies}
+    \label{conception_cube_néoplasies}
+\end{figure}
 
-Comme observable sur le modèle logique, les seules transformations nécessaire à la construction de ce cube sont le découpage de la table SEXAGE en une table SEXE et une table AGE. Les tab[h!]les restantes seront utilisées telles quelles.
+\section{Entrepôt}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{images/cubeNeo.png}
+    \caption{Modèle logique de l'entrepôt}
+    \label{conception_cube_néoplasies}
+\end{figure}
+
+
 \pagebreak
 
 
-\chapter{Construction de l'entrepôt et des cubes}
+\chapter{Transformations des tables d'origine}
+
+TODO : enlever les requetes SQL, reformuler pour avoir pour chaque transfo : les sources, la destination et les opérations effectuées) et completer les transformations réalisées pour tous les cubes
 
 \section{Séparation des données de sexe et d'age}
 
@@ -173,8 +204,10 @@ WHERE h.delta > 0
 
 \pagebreak
 
+\chapter{Indicateurs et validation}
 
-\chapter{Validation des cubes}
+TODO : trouver pour chaque cube des indicateurs et les utiliser pour montrer qu'on a validé nos données (c'est-à-dire que les données étaient toujours les mêmes avant et après nos modifications de tables)
+
 \section{Population}
 Les validations suivantes ont été appliquées sur le cube Population afin de valider l'intégrité des données de celui-ci. Les résultats obtenus lors de l'exploration du cube ont été recoupées avec les données des tables par les requêtes SQL adéquates :
 \begin{itemize}
