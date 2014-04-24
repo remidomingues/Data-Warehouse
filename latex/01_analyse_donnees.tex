@@ -8,6 +8,21 @@ TODO : raconter ce qu'on a découvert dans les données et comment (sans requêt
  - pour les néoplasies, les causes renseignées pour la mort sont les causes les plus précises (plus d'imbrications des causes et donc de doublons des morts) \\
  ...
 
+ Les données fournies contiennent des informations sur les causes de décès et la population en Angleterre et au Pays de Galles entre 1979 et 1992, sous la forme de tables. Nous allons tout d'abord analyser ces tables, afin d'en comprendre le contenu et d'en vérifier la validité. \\
+
+\begin{paragraph}
+Les données sont formées de 19 tables, liées entre elles par des clés étrangères. Nous avons tout d'abord remarqué que les données des deux premières années (79 et 80) sont des estimations (chiffres ronds et calculs justes). En effet, les données étaient manquantes pour ces deux années, et elles ont été estimées par rapport aux évolutions des autres années. Commençons tout d'abord par les tables concernant la population. La table principale est "7992pops", et compte 214 396 lignes. Elle contient le nombre de personnes vivantes, dans les régions citées précédemment, en fonction de l'année, du district, de l'age et du sexe. Ces différentes informations (sauf l'année) sont en fait des identifiants, à mettre en relation avec d'autre tables. Nous avons vérifier, grâce à une requête SQL, que la clé de cette table était bien composé des identifiants de county, district, sexage et de l'année.\\
+Les identifiants de county et de district peuvent donner le nom du district concerné, dans la table "cdlist". Il existe 403 districts, contenus dans des county, eux-même contenus dans des régions. \\
+Ils permettent aussi de faire le lien avec la table "areaclas", qui contient elle aussi pour chaque paire d'identifiants le nom du district, ainsi que les codes et noms des familles, groupes et clusters. Ceux-ci sont des classifications des districts selon des critères économiques. \\
+A partir de l'identifiant du county, on peut retrouver son nom et l'identifiant de la région à laquelle il appartient grâce à la table "county". Il existe 54 county.\\
+De la même façon, à partir de l'identifiant de la région, on peut faire le lien avec la table "region", qui permet de retrouver son nom (il y en a 11 en tout). \\
+On peut ensuite retrouver l'âge et le sexe de la catégorie à partir de l'identifiant sexage, que l'on retrouve dans la table "sexage". Cette table contient les identifiants associés à des labels, ceux-ci étant de la forme M1-4 ou encore W5-9, représentant respectivement des garçons agés de 1 à 4 ans, et des filles agées de 5 à 9 ans. Ce découpage permet de classer la population selon 38 catégories de sexage.\\
+\end{paragraph}
+
+\begin{paragraph}
+Nous allons maintenant nous intéresser aux données concernant les morts. Ces données étant vraiment très imposantes, elles sont séparées en 11 tables, une par région : "yorkhumb", "westmids", "stheast", "wales", "sthwest", "nthwest", "london", "ntheast", mersey", "eastmids" et "eastern". De même que précédement, les différentes lignes correspondent au nombre de morts selon l'année, le disctrict, la catégorie sexage, avec en plus la cause. \\
+La cause est en fait un identifiant correspondant à une ligne de la table "causes". Chaque cause a un nom, un niveau et un père. Elles sont réparties selon un arbre de causes : la cause 1 correspond à la cause "toutes les causes", cette cause a des fils qui elles-mêmes ont des fils, et plus le niveau est élevé, plus la cause de mort est précise. Le père de la cause correspond donc à son père dans l'arbre. Normalement, toutes les morts de causes de niveau 1 devraient être égales à toutes les morts de cause de niveau 2 ainsi que toutes les sommes sur les niveau. En réalité, grâce des requêtes SQL adéquates, nous avons réalisé que les sommes n'étaient pas égales. Ceci est probablement du à des erreurs ou des oublis lors du remplissage des certificats. \\
+\end{paragraph}
 
 \pagebreak
 
@@ -41,7 +56,7 @@ TODO : raconter ce qu'on a découvert dans les données et comment (sans requêt
 \section{Entrepôt}
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=\linewidth]{images/cubeNeo.png}
+    \includegraphics[width=\linewidth]{images/entrepot.png}
     \caption{Modèle logique de l'entrepôt}
     \label{conception_cube_néoplasies}
 \end{figure}
