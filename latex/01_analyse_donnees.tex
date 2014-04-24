@@ -1,13 +1,5 @@
 \chapter{Analyse des données}
 
-TODO : décrire vite fait chaque table ? \\
-TODO : raconter ce qu'on a découvert dans les données et comment (sans requêtes SQL) -> les données ne sont pas bonnes, nous les avons vérifiées, grâce à des requêtes (vérifications internes) et à d'autres sources externes (wikipédia...) \\
- - les causes de morts qui s'imbriquent \\
- - la somme de niveau 1 différentes de celles de niveau 2 \\
- - les données des années 79 - 80 sont des estimations (chiffres ronds) car absence de données pour ces années là \\
- - pour les néoplasies, les causes renseignées pour la mort sont les causes les plus précises (plus d'imbrications des causes et donc de doublons des morts) \\
- ...
-
  Les données fournies contiennent des informations sur les causes de décès et la population en Angleterre et au Pays de Galles entre 1979 et 1992, sous la forme de tables. Nous allons tout d'abord analyser ces tables, afin d'en comprendre le contenu et d'en vérifier la validité. \\
 
 \begin{paragraph}
@@ -22,6 +14,10 @@ On peut ensuite retrouver l'âge et le sexe de la catégorie à partir de l'iden
 \begin{paragraph}
 Nous allons maintenant nous intéresser aux données concernant les morts. Ces données étant vraiment très imposantes, elles sont séparées en 11 tables, une par région : "yorkhumb", "westmids", "stheast", "wales", "sthwest", "nthwest", "london", "ntheast", mersey", "eastmids" et "eastern". De même que précédement, les différentes lignes correspondent au nombre de morts selon l'année, le disctrict, la catégorie sexage, avec en plus la cause. \\
 La cause est en fait un identifiant correspondant à une ligne de la table "causes". Chaque cause a un nom, un niveau et un père. Elles sont réparties selon un arbre de causes : la cause 1 correspond à la cause "toutes les causes", cette cause a des fils qui elles-mêmes ont des fils, et plus le niveau est élevé, plus la cause de mort est précise. Le père de la cause correspond donc à son père dans l'arbre. Normalement, toutes les morts de causes de niveau 1 devraient être égales à toutes les morts de cause de niveau 2 ainsi que toutes les sommes sur les niveau. En réalité, grâce des requêtes SQL adéquates, nous avons réalisé que les sommes n'étaient pas égales. Ceci est probablement du à des erreurs ou des oublis lors du remplissage des certificats. \\
+\end{paragraph}
+
+\begin{paragraph}
+Il reste maintenant le fichier sample.csv, qui contient les données concernant les morts de néoplasies pour le comté de Bedfordshire uniquement. Après l'avoir importé en tant que table dans la base de données, nous avons pu l'analyser. Il est semblable aux tables de morts par région : elle contient le nombre de morts pour une catégorie de sexage, une année et une cause. Nous nous sommes rendu compte que pour cette table, les causes n'étaient pas considérées de la même façon. En effet, contrairement aux autres morts, celles-ci ne sont comptées qu'une fois, à leur niveau de cause le plus précis. On peut ensuite remonter aux causes plus générales à l'aide de la relation père-fils de ces causes.
 \end{paragraph}
 
 \pagebreak
