@@ -97,16 +97,24 @@ Il reste maintenant le fichier sample.csv, qui contient les données concernant 
 
 \chapter{Indicateurs et validation}
 
-TODO : trouver pour chaque cube des indicateurs et les utiliser pour montrer qu'on a validé nos données (c'est-à-dire que les données étaient toujours les mêmes avant et après nos modifications de tables)
-
 \section{Population}
 Les validations suivantes ont été appliquées sur le cube Population afin de valider l'intégrité des données de celui-ci. Les résultats obtenus lors de l'exploration du cube ont été recoupées avec les données des tables par les requêtes SQL adéquates :
 \begin{itemize}
-    \item Population totale en 1992 : 51 276 887
+    \item Population totale en 1992 : 51 276 887. Nous avons comparé ces données à celles officielles, qui indique environ 57 millions de morts pour l'année 92. Nous avons donc le même ordre de grandeur de données.
     \item Population totale en 1992 dans le 1er county : 6 904 554
     \item Population totale en 1992, de sexe masculin et d'âge inférieur à un an : 355 930
     \item Population totale en 1992, de sexe masculin et d'âge inférieur à un an dans le 1er district et le 1er county du cluster Central London : 18
 \end{itemize}
+
+
+\section{Néoplasies}
+Afin de valider nos données, nous avons utilisé les indicateurs suivants :
+\begin{itemize}
+    \item Nombre de morts de néoplasies total pour les 13 ans : 8 032 326. Il s'agit d'une simple somme de toutes les morts de la table des néoplasies. Nous avons vérifié avec les données du cube des nombres de morts, pour la région stheast et la cause 13 nous trouvons bien la même valeur.
+    \item Nombre de mort d'une néoplasie de l'oesophage en 1982 : 27. Il s'agit de la somme des morts pour la cause 17 et l'année 82. Nous avons là aussi vérifier avec l'autre cube, qui trouve bien la même valeur.
+    \item Moyenne du nombre de morts de néoplasies par année : 573 737,6. Là encore nous avons vérifier nos données avec l'autre cube afin d'en assurer la validité.
+\end{itemize}
+
 
 
 \pagebreak
